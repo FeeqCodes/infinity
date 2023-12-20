@@ -2,6 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import path, { join } from "path";
 import fs from "fs";
 import { writeFile } from "fs/promises";
+import { promises as fsPromises } from "fs";
 
 const API_KEY = process.env.GOOGLE_GENERATIVE_AI;
 // Converts local file information to a GoogleGenerativeAI.Part object.
@@ -48,15 +49,22 @@ export async function POST(req) {
   }
 
   const fileName = file.name;
+  const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9_-]/g, "_");
 
-  const dir = join(path, fileName);
+  const dir = join(path, sanitizedFileName);
 
-  if (!fs.existsSync(dir)) {
-    fs.writeFile(dir, buffer, (err) => {
-      if (err) {
-        console.log(err);
-      }
-    });
+  // if (!fs.existsSync(dir)) {
+  //   fs.writeFile(dir, buffer, (err) => {
+  //     if (err) {
+  //       console.log(err);
+  //     }
+  //   });
+  // }
+  try {
+    await fsPromises.writeFile(dir, buffer);
+    console.log("Temporary file created:", dir);
+  } catch (error) {
+    console.error("Error creating temporary file:", error);
   }
 
   const imageParts = [fileToGenerativePart(dir, "image/jpeg")];
