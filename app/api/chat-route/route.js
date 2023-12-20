@@ -1,65 +1,106 @@
-
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { join } from "path";
-import fs from "fs"
+import { writeFile } from "fs/promises";
+import fsPromises from "fs/promises";
 
 
-// const {
-//   GoogleGenerativeAI,
-// } = require("@google/generative-ai");
-// const fs = require("fs");
-
-const MODEL_NAME = "gemini-pro-vision";
-// const API_KEY = "process.env.GOOGLE_API_KEY";
 
 export async function POST(req) {
 
-  const { input }  = await req.json()
+  try {
+    const data = await req.formData();
+    const file = data.get("file");
 
-  const genAI = new GoogleGenerativeAI(
-    "AIzaSyDlH0b50TBX-zcYRJJVD7Yc_pavqTe3-NQ"
-  );
-  const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+    if (!file) {
+      return Response.json({ message: "No file Selected" });
+    }
 
-  const generationConfig = {
-    temperature: 0.4,
-    topK: 32,
-    topP: 1,
-    maxOutputTokens: 4096,
-  };
+    // const bytes = await file.arrayBuffer();
+    //  const buffer = await fsPromises.readFile(file);
+
+     const bytes = await file.arrayBuffer();
+     const buffer = Buffer.from(bytes);
+
+    const path = join(process.cwd(), "data/document_loaders", file.name);
+    await writeFile(path, buffer);
 
 
-   const path = join(process.cwd(), "data/document_loaders",  "pic.jpg"); 
+    return Response.json({ message: "File Uploaded Successfully" });
 
-  if (!fs.existsSync(path)) {
-    throw new Error("Could not find images in current directory.");
+
+  } catch (error){
+    console.error("Error:", error.message);
+
+    return Response.json({ message: "Error" });
   }
 
-  const parts = [
-    {
-      inlineData: {
-        mimeType: "image/jpeg",
-        data: Buffer.from(fs.readFileSync(path)).toString("base64")
-      }
-    },
-    {text: input},
-  ];
 
-  const result = await model.generateContent({
-    contents: [{  parts }],
-    generationConfig,
-    // safetySettings,
-  });
-
-  const response = result.response;
-  const text = response.text();
-  console.log(text);
-
-  return Response.json({output: text})
 }
 
 
 
+// import { GoogleGenerativeAI } from "@google/generative-ai";
+// import path, { join } from "path";
+// import fs from "fs";
+// import {  writeFile } from "fs/promises";
+
+// const API_KEY = process.env.GOOGLE_GENERATIVE_AI;
+
+// export async function POST(req) {
+//   // const { input }  = await req.json()
+
+//   // get Image
+//   const data = await req.formData();
+//   const file = data.get("file");
+//   console.log(file)
+
+//   if (!file) {
+//     throw new Error("No Input or image");
+//   }
+
+//   const buffer = Buffer.from(await file.arrayBuffer());
+//   const filename = Date.now() + file.name.replaceAll(" ", "_");
+//   console.log(filename);
+
+//   await writeFile(
+//     path.join(process.cwd(), "public/uploads/" + filename),
+//     buffer
+//   );
+
+//   const genAI = new GoogleGenerativeAI(API_KEY);
+
+//   const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
+
+//   const generationConfig = {
+//     temperature: 0.4,
+//     topK: 32,
+//     topP: 1,
+//     maxOutputTokens: 4096,
+//   };
+
+//   prompt = "What type of image is this";
+
+//   const parts = [
+//     {
+//       inlineData: {
+//         mimeType: "image/jpeg",
+//         data: Buffer.from(fs.readFileSync(path)).toString("base64"),
+//       },
+//     },
+//     { text: prompt },
+//   ];
+
+//   const result = await model.generateContent({
+//     contents: [{ parts }],
+//     generationConfig,
+//     // safetySettings,
+//   });
+
+//   const response = result.response;
+//   const text = response.text();
+//   console.log(text);
+
+//   return Response.json({ output: text });
+// }
 
 
 

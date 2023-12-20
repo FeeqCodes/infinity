@@ -10,8 +10,12 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  max-width: 95vw;
+  /* max-width: 95vw; */
   margin: auto
 
   
+}
+
+.r3f{
+    touch-action: none;
 }

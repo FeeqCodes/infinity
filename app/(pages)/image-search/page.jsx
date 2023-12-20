@@ -1,9 +1,18 @@
 "use client";
 
+
 import React, { useState } from "react";
 import Image from "next/image";
 import Button from "@/app/components/Button";
 import Column from "@/app/components/Column";
+import PromptBox from "@/app/components/PromptBox";
+
+
+
+
+
+
+
 
 const ImageSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,19 +25,19 @@ const ImageSearch = () => {
     },
   ]);
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // const imageUrl = URL.createObjectURL(file);
-      // setImage(imageUrl);
+      const imageUrl = URL.createObjectURL(file);
+      setImage(imageUrl);
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      // const reader = new FileReader();
+      // reader.onloadend = () => {
+      //   setImage(reader.result);
+      // };
+      // reader.readAsDataURL(file);
     }
   };
 
@@ -46,18 +55,23 @@ const ImageSearch = () => {
     try {
       setMessages((prevMessages) => [
         ...prevMessages,
-        { text: prompt, image: image },
+        { text: prompt },
       ]);
 
       setPrompt("");
       setIsLoading(true);
 
-      // sending the prompt to the backend and initializing the response
+      // Sending the image
+      const data = new FormData();
+      data.set("file", image);
+      // formData.append("input", prompt)
+
       const response = await fetch("api/chat-route", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input: prompt, image: image }),
-        // cache:'no-store'
+        body: data,
+        // headers: {
+        //   "Content-Type": "multipart/form-data",
+        // },
       });
 
       if (!response.ok) {
@@ -91,7 +105,11 @@ const ImageSearch = () => {
       <Column
         leftChildren={
           <div className="">
-            <input type="file" accept="image/*" onChange={handleImageChange} />
+            <input  
+              type="file" 
+              accept=".pdf" 
+              onChange={handleImageChange} 
+            />
             {image && (
               <div>
                 <Image
@@ -114,19 +132,13 @@ const ImageSearch = () => {
                 </div>
               ))}
             </div>
+
             {/* prompt*/}
-            <div className="flex gap-x-5">
-              <input
-                value={prompt}
-                onChange={handlePromptChange}
-                // onKeyDown={handlePromptSubmit}
-                className="py-6 pl-6 pr-16 w-[50%] h-8 rounded-[20px] border-2 border-[#CCC1C1] shadow-md shadow-[#333] text-black outline-none"
-                placeholder="Send A Message"
-              />
-              <Button
-                handlePromptSubmit={handlePromptSubmit} 
-                text="Click" />
-            </div>
+            <PromptBox
+              handlePromptChange={handlePromptChange}
+              handlePromptSubmit={handlePromptSubmit}
+              prompt={prompt}
+            />
           </div>
         }
       />

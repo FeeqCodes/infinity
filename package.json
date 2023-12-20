@@ -1,5 +1,4 @@
 {
-  
   "name": "infinity",
   "version": "0.1.0",
   "private": true,
@@ -12,10 +11,16 @@
   "dependencies": {
     "@google/generative-ai": "^0.1.2",
     "@langchain/google-genai": "^0.0.4",
+    "@react-three/drei": "^9.92.5",
+    "@react-three/fiber": "8.15",
+    "formidable": "^3.5.1",
     "langchain": "^0.0.209",
+    "multer": "^1.4.5-lts.1",
     "next": "14.0.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "three": "^0.158.0",
+    "tmp": "^0.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",
