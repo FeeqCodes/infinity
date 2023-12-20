@@ -31,7 +31,7 @@ const Experience = () => {
         snap={{ mass: 4, tension: 400 }}
       >
         <Float rotationIntensity={2} scale={2.5}>
-          <primitive object={computer.scene} position-y={-1} />
+          <primitive object={computer?.scene} position-y={-1} />
         </Float>
       </PresentationControls>
 

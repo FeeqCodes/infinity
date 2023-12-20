@@ -26,12 +26,16 @@ const ImageSearch = () => {
   ]);
 
   const [image, setImage] = useState();
+  // const [imageUrl, setImageUrl] = useState()
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    setImage(file)
+
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
+      // const imageUrl = URL.createObjectURL(file);
+      // setImageUrl(imageUrl);
 
       // const reader = new FileReader();
       // reader.onloadend = () => {
@@ -62,13 +66,13 @@ const ImageSearch = () => {
       setIsLoading(true);
 
       // Sending the image
-      const data = new FormData();
-      data.set("file", image);
-      // formData.append("input", prompt)
+      const formData = new FormData();
+      formData.set("file", image);
+      formData.set("input", prompt)
 
-      const response = await fetch("api/chat-route", {
+      const response = await fetch("api/image-search", {
         method: "POST",
-        body: data,
+        body: formData,
         // headers: {
         //   "Content-Type": "multipart/form-data",
         // },
@@ -107,13 +111,13 @@ const ImageSearch = () => {
           <div className="">
             <input  
               type="file" 
-              accept=".pdf" 
+              accept="image/*" 
               onChange={handleImageChange} 
             />
             {image && (
               <div>
                 <Image
-                  src={image}
+                  src={URL.createObjectURL(image)}
                   alt="Uploaded Image"
                   width={300}
                   height={200}
