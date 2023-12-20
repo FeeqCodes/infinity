@@ -66,7 +66,7 @@ export async function POST(req) {
   } catch (error) {
     console.error("Error creating temporary file:", error);
   }
-
+  
   const imageParts = [fileToGenerativePart(dir, "image/jpeg")];
 
   const result = await model.generateContent([input, imageParts]);

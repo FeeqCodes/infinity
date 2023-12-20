@@ -2,7 +2,7 @@ import React from 'react'
 
 const Navbar = () => {
   return (
-    <nav className='py-5 w-full mb-20 flex justify-between'>
+    <nav className='py-5 w-full mb-20 flex justify-between '>
       <span className='block'>Infinity</span>
 
       <ul className='flex gap-5'>
