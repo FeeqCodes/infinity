@@ -16,7 +16,7 @@ const Navbar = () => {
       className="h-[54px] w-full mb-0 flex items-center 
     justify-between bg-white  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-[28%] rounded-[20px] p-2 px-8"
     >
-      <span className="block">
+      <Link href="/" className="block">
         <Image
           className="w-[4rem]"
           src="/assets/logo.png"
@@ -24,7 +24,7 @@ const Navbar = () => {
           width={100}
           height={100}
         />
-      </span>
+      </Link>
 
       <ul className="flex gap-10 text-white ">
         {links.map((link, id) => (
