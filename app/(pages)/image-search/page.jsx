@@ -6,7 +6,6 @@ import Image from "next/image";
 import Button from "@/app/components/Button";
 import Column from "@/app/components/Column";
 import PromptBox from "@/app/components/PromptBox";
-import Navbar from "@/app/(global-layout)/Navbar";
 
 
 
@@ -105,7 +104,6 @@ const ImageSearch = () => {
 
   return (
     <>
-    
       <div>{isLoading && <p>Loading...</p>}</div>
 
       <Column
