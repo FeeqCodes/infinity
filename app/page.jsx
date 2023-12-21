@@ -13,11 +13,11 @@ export default function Home() {
 
   return (
     <>
-      <div className="relative ">
+      <div className="relative font-duel">
         <MyCanvas />
 
         <div className="absolute top-[20%] left-[5%] w-[20vw] h-[60vh]  
-         bg-[#15061B] backdrop-blur-lg  bg-opacity-40 border-gray-200
+         bg-[#15061B] backdrop-blur-lg  bg-opacity-30 border-gray-200
          shadow-md shadow-[#222] ">
           <div className=" h-full flex justify-between flex-col items-center p-4">
             <div>
@@ -26,7 +26,7 @@ export default function Home() {
 
             <div className="">
               <button
-                onClick={() => router.push("/image-search")}
+                onClick={() => router.push("/home-page")}
                 className=" p-4 bg-white rounded-sm"
               >
                 Explore

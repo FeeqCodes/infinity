@@ -74,5 +74,8 @@ export async function POST(req) {
   const text = response.text();
   console.log(text);
 
+  // remove the file
+  fs.unlink(dir, (err) => console.log(err))
+
   return Response.json({ output: text });
 }

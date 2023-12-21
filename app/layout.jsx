@@ -1,9 +1,11 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "./(global-layout)/Navbar";
+import Footer from "./(global-layout)/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
+
+// Fonts
+
+import { duel, instrumentSans } from "@/styles/fonts";
 
 export const metadata = {
   title: "Create Next App",
@@ -13,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${duel.variable} ${instrumentSans.variable} font-sans`}>
         {/* <Navbar /> */}
         <main>{children}</main>
         {/* <Footer /> */}
