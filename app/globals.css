@@ -11,7 +11,8 @@
 body {
   color: rgb(var(--foreground-rgb));
   /* max-width: 95vw; */
-  margin: auto
+  margin: auto;
+  background-color: #1F1B24;
 
   
 }

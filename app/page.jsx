@@ -26,7 +26,7 @@ export default function Home() {
 
             <div className="">
               <button
-                onClick={() => router.push("/home-page")}
+                onClick={() => router.push("/image-search")}
                 className=" p-4 bg-white rounded-sm"
               >
                 Explore
