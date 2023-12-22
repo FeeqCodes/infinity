@@ -1,7 +1,7 @@
 import Navbar from "@/app/(global-layout)/Navbar";
 import React from "react";
 
-const ImageSearchLayout = ({ children }) => {
+const ImagePromptLayout = ({ children }) => {
   return (
     <div className="max-w-[95vw] m-auto my-5">
       <Navbar />
@@ -10,4 +10,4 @@ const ImageSearchLayout = ({ children }) => {
   );
 };
 
-export default ImageSearchLayout;
+export default ImagePromptLayout;

@@ -15,11 +15,10 @@ function fileToGenerativePart(path, mimeType) {
   };
 }
 export async function POST(req) {
-  // const { input }  = await req.json()
-
   // get Image
   const data = await req.formData();
   const file = data.get("file");
+  // get input
   const input = data.get("input");
 
   if (!file || !input) {

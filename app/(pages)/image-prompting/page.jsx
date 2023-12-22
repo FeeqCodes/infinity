@@ -1,48 +1,32 @@
 "use client";
 
-
 import React, { useState } from "react";
 import Image from "next/image";
 import Button from "@/app/components/Button";
 import Column from "@/app/components/Column";
 import PromptBox from "@/app/components/PromptBox";
+import PromptInput from "@/app/components/PromptInput";
+import Hero from "@/app/components/Hero";
+import BreadCrumbs from "@/app/components/BreadCrumbs";
 
-
-
-
-
-
-
-
-const ImageSearch = () => {
+const ImagePrompt = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [error, setError] = useState(null);
 
   const [messages, setMessages] = useState([
     {
-      text: "Hi What will you like to search for today",
+      text: "Hi! Please upload an image and start asking questions on it",
+      type: "bot"
     },
   ]);
 
   const [image, setImage] = useState();
   // const [imageUrl, setImageUrl] = useState()
 
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setImage(file)
-
-    if (file) {
-      // const imageUrl = URL.createObjectURL(file);
-      // setImageUrl(imageUrl);
-
-      // const reader = new FileReader();
-      // reader.onloadend = () => {
-      //   setImage(reader.result);
-      // };
-      // reader.readAsDataURL(file);
-    }
+    setImage(file);
   };
 
   /**
@@ -57,10 +41,7 @@ const ImageSearch = () => {
     console.log("Sending", prompt);
 
     try {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { text: prompt },
-      ]);
+      setMessages((prevMessages) => [...prevMessages, { text: prompt }]);
 
       setPrompt("");
       setIsLoading(true);
@@ -68,9 +49,9 @@ const ImageSearch = () => {
       // Sending the image
       const formData = new FormData();
       formData.set("file", image);
-      formData.set("input", prompt)
+      formData.set("input", prompt);
 
-      const response = await fetch("api/image-search", {
+      const response = await fetch("api/image-prompting", {
         method: "POST",
         body: formData,
         // headers: {
@@ -106,14 +87,12 @@ const ImageSearch = () => {
     <>
       <div>{isLoading && <p>Loading...</p>}</div>
 
+      <Hero title="Image Prompting" breadCrumbs={<BreadCrumbs />} />
+
       <Column
         leftChildren={
           <div className="">
-            <input  
-              type="file" 
-              accept="image/*" 
-              onChange={handleImageChange} 
-            />
+            <input type="file" accept="image/*" onChange={handleImageChange} />
             {image && (
               <div>
                 <Image
@@ -127,21 +106,18 @@ const ImageSearch = () => {
           </div>
         }
         rightChildren={
-          <div>
-            {/* Message */}
-            <div className="mb-5">
-              {messages.map((message, index) => (
-                <div key={index}>
-                  <p>{message.text}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* prompt*/}
+          <div className="w-[40vw] max-w-[40vw]">
             <PromptBox
+              messages={messages}
+              prompt={prompt}
               handlePromptChange={handlePromptChange}
               handlePromptSubmit={handlePromptSubmit}
+              isLoading={isLoading}
+            />
+            <PromptInput
               prompt={prompt}
+              handlePromptChange={handlePromptChange}
+              handlePromptSubmit={handlePromptSubmit}
             />
           </div>
         }
@@ -150,4 +126,24 @@ const ImageSearch = () => {
   );
 };
 
-export default ImageSearch;
+export default ImagePrompt;
+
+// {/* <div>
+//             {/* Message */}
+//             <div className="mb-5">
+//               {messages.map((message, index) => (
+//                 <div key={index}>
+//                   <p>{message.text}</p>
+//                 </div>
+//               ))}
+//             </div>
+
+//             {/* prompt*/}
+//             {/* <PromptBox
+//               handlePromptChange={handlePromptChange}
+//               handlePromptSubmit={handlePromptSubmit}
+//               prompt={prompt}
+//             /> */}
+//             <input onChange={handlePromptChange} className="w-[25rem] rounded p-2 outline-none" placeholder="your search" />
+//             <button onClick={handlePromptSubmit} className="p-2 px-4 bg-blue-600 text-black">Click</button>
+//           </div> */}

@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <nav
       className="h-[54px] w-full mb-0 flex items-center 
-    justify-between bg-white  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-[28%] rounded-[20px] p-2 px-8"
+    justify-between bg-[#373333] border border-gray-400  bg-clip-padding backdrop-filter backdrop-blur-[7px] bg-opacity-[30%] rounded-[20px] p-2 px-8"
     >
       <Link href="/" className="block">
         <Image
